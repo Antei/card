@@ -17,7 +17,7 @@ body::before {
             <ul>
               <li><strong>Категория</strong>: {{ card.category.title() }}</li>
               <li><strong>Описание</strong>: {{ card.description }}</li>
-              <li><strong>Примечания</strong>: <a href="{{ card.link}}">{{ card.info }}</a></li>
+              <li><strong>Примечания</strong>: <a href="{{ card.link }}">{{ card.info }}</a></li>
             </ul>
             <p>
               {{ card.html|safe }}

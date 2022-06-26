@@ -26,7 +26,12 @@ def index():
     with open('settings.cfg', encoding='utf-8') as config:
         data = config.read()
         settings = json.loads(data)
-    return render_template('index.html', posts=posts, cards=cards, bigheader=True, **settings)
+    tags = set()
+    for post in flatpages:
+        tag = post.meta.get('tag')
+        if tag:
+            tags.add(tag.lower())
+    return render_template('index.html', posts=posts, cards=cards, bigheader=True, tags=tags, **settings)
 
 
 @app.route('/portfolio/<name>/')
@@ -41,6 +46,16 @@ def post(name):
     path = f'{POST_DIR}/{name}' # путь к посту в блоге
     post = flatpages.get_or_404(path)
     return render_template('post.html', post=post)
+
+
+@app.route('/pygments.css')
+def pygments_css():
+    return pygments_style_defs('monokai'), 200, {'Content-Type': 'text/css'}
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
